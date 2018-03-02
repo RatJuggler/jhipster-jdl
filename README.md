@@ -1,0 +1,2 @@
+# jhipster-jdl
+JHipster JDL
