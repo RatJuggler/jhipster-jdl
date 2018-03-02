@@ -1,0 +1,47 @@
+// See http://www.jhipster.tech/jdl/ for JDL specification.
+// See http://www.jhipster.tech/using-dtos/ for notes on DTO's.
+
+DEFAULT_MIN_LENGTH = 1
+DEFAULT_MAX_LENGTH = 64
+DEFAULT_MIN_BYTES = 20
+DEFAULT_MAX_BYTES = 40
+DEFAULT_MIN = 0
+DEFAULT_MAX = 999
+
+entity Era {
+    name String required maxlength(DEFAULT_MAX_LENGTH),
+    fromMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
+    toMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+}
+
+entity Clade {
+	description String required maxlength(DEFAULT_MAX_LENGTH)
+}
+
+entity Dinosaur {
+    name String required maxlength(DEFAULT_MAX_LENGTH),
+    weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
+    length Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
+    diet Diet,
+    insertDt Instant required,
+    modifiedDt Instant required
+}
+
+enum Diet {
+    HERBIVORE, CARNIVORE, OMNIVORE
+}
+
+relationship OneToMany {
+	Era{dinosaur} to Dinosaur,
+	Clade{dinosaur} to Dinosaur
+}
+
+// Set pagination options.
+paginate Dinosaur with infinite-scroll
+paginate Era, Clade with pagination
+
+// Use a service layer with an interface for all entities.
+service all with serviceImpl
+
+// [BETA] Use DTO's with the service layer with MapStruct.
+dto * with mapstruct
