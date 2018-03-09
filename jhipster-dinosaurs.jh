@@ -31,9 +31,9 @@ enum Diet {
     HERBIVORE, CARNIVORE, OMNIVORE
 }
 
-relationship OneToMany {
-	Era{dinosaur} to Dinosaur,
-	Clade{dinosaur} to Dinosaur
+relationship ManyToOne {
+	Dinosaur{era} to Era,
+	Dinosaur{clade} to Clade
 }
 
 // Set pagination options.
