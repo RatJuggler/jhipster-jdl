@@ -1,0 +1,63 @@
+// See http://www.jhipster.tech/jdl/ for JDL specification.
+// See http://www.jhipster.tech/using-dtos/ for notes on DTO's.
+
+DEFAULT_MIN_LENGTH = 1
+DEFAULT_MAX_LENGTH = 32
+DEFAULT_MIN_BYTES = 20
+DEFAULT_MAX_BYTES = 40
+DEFAULT_MIN = 0
+DEFAULT_MAX = 999
+
+entity Vets {
+  first_name String required maxlength(DEFAULT_MAX_LENGTH),
+  last_name String required maxlength(DEFAULT_MAX_LENGTH)
+}
+
+entity Specialties {
+	name String required maxlength(DEFAULT_MAX_LENGTH)
+}
+
+entity Types {
+  name String required maxlength(80)
+}
+
+entity Owners {
+  first_name String required maxlength(DEFAULT_MAX_LENGTH),
+  last_name String required maxlength(DEFAULT_MAX_LENGTH),
+  address String required maxlength(255),
+  city String maxlength(DEFAULT_MAX_LENGTH),
+  telephone String required maxlength(20)
+}
+
+entity Pets {
+  name String required maxlength(DEFAULT_MAX_LENGTH),
+  birth_date Date required
+}
+
+entity Visits {
+  visit_date Instant required,
+  description String required maxlength(255)
+}
+
+relationship ManyToMany {
+  Specialties{vet} to Vets{specialty}
+}
+
+relationship OneToMany {
+  Owners to Pets{owner},
+  Pets to Visits{pet}
+}
+
+relationship ManyToOne {
+  Pets{type} to Types
+}
+
+// Set pagination options.
+paginate Owners, Pets with infinite-scroll
+paginate Vets, Types, Visits with pagination
+
+// Use a service layer with an interface for all entities.
+service all with serviceImpl
+
+// [BETA] Use DTO's with the service layer with MapStruct.
+dto * with mapstruct
