@@ -32,8 +32,8 @@ enum Diet {
 }
 
 relationship ManyToOne {
-	Dinosaur{era} to Era,
-	Dinosaur{clade} to Clade
+	Dinosaur{era(name)} to Era,
+	Dinosaur{clade(desciption)} to Clade
 }
 
 // Set pagination options.
