@@ -1,4 +1,4 @@
-#JHipster-JDL
+# JHipster-JDL
 
 Some examples of JDL schema for use with JHipster.
 
