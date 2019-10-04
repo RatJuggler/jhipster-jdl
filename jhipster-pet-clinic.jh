@@ -9,8 +9,8 @@ DEFAULT_MIN = 0
 DEFAULT_MAX = 999
 
 entity Vets {
-  first_name String required maxlength(DEFAULT_MAX_LENGTH),
-  last_name String required maxlength(DEFAULT_MAX_LENGTH)
+  firstname String required maxlength(DEFAULT_MAX_LENGTH),
+  lastname String required maxlength(DEFAULT_MAX_LENGTH)
 }
 
 entity Specialties {
@@ -22,8 +22,8 @@ entity Types {
 }
 
 entity Owners {
-  first_name String required maxlength(DEFAULT_MAX_LENGTH),
-  last_name String required maxlength(DEFAULT_MAX_LENGTH),
+  firstname String required maxlength(DEFAULT_MAX_LENGTH),
+  lastname String required maxlength(DEFAULT_MAX_LENGTH),
   address String required maxlength(255),
   city String maxlength(DEFAULT_MAX_LENGTH),
   telephone String required maxlength(20)
@@ -31,11 +31,11 @@ entity Owners {
 
 entity Pets {
   name String required maxlength(DEFAULT_MAX_LENGTH),
-  birth_date Date required
+  birthdate Date required
 }
 
 entity Visits {
-  visit_date Instant required,
+  visitdate Instant required,
   description String required maxlength(255)
 }
 
