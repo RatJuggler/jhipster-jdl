@@ -15,8 +15,9 @@ The JDL specification can be found [here](http://www.jhipster.tech/jdl/).
 
 - A blog, as used in Matt Raible's [Getting Started with JHipster 6](https://www.youtube.com/watch?v=uQqlO3IGpTU) video.
 
-- The default HR system example from the JDL-Studio editor.
+- The default Oracle "Human Resources" example from the JDL-Studio editor.
 
 - An implementation of the Petclinic entities used in numerous other project examples.
 
-- The entities used in my own [Dinosaurs JHipster](https://github.com/RatJuggler/jhipster-dinosaurs) example.
+- The entities used in my own [Dinosaurs JHipster](https://github.com/RatJuggler/jhipster-dinosaurs) example. This now 
+includes the application generation options used.
