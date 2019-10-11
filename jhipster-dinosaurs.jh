@@ -1,47 +1,85 @@
-// See http://www.jhipster.tech/jdl/ for JDL specification.
-// See http://www.jhipster.tech/using-dtos/ for notes on DTO's.
+// See https://www.jhipster.tech/jdl/ for JDL specification.
+// See https://www.jhipster.tech/using-dtos/ for notes on DTO's.
+
+// Note: Not using a service layer or DTO's.
 
 DEFAULT_MIN_LENGTH = 1
 DEFAULT_MAX_LENGTH = 64
-DEFAULT_MIN_BYTES = 20
-DEFAULT_MAX_BYTES = 40
 DEFAULT_MIN = 0
 DEFAULT_MAX = 999
 
-entity Era {
+application {
+  config {
+    applicationType monolith
+    baseName dinosaurs
+    packageName com.rj.dinosaurs
+    buildTool maven
+    authenticationType jwt
+    databaseType sql
+    prodDatabaseType mysql
+    devDatabaseType h2Disk
+    cacheProvider ehcache
+    enableHibernateCache true
+    clientFramework angularX
+    useSass false
+	enableSwaggerCodegen true
+    skipUserManagement false
+    enableTranslation false
+    languages [en]
+    testFrameworks [protractor, cucumber, gatling]
+  }
+  entities *
+}
+
+enum Period {
+	TRIASSIC, JURASSIC, CRETACEOUS
+}
+
+enum EpochRange {
+	EARLY_LOWER, MIDDLE, LATE_UPPER
+}
+
+@paginate(pagination)
+entity Epoch {
+	period Period required,
+    epoch EpochRange required,
+    fromMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
+    toMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+}
+
+@paginate(pagination)
+entity Age {
     name String required maxlength(DEFAULT_MAX_LENGTH),
     fromMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
     toMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
 }
 
+@paginate(pagination)
 entity Clade {
 	description String required maxlength(DEFAULT_MAX_LENGTH)
-}
-
-entity Dinosaur {
-    name String required maxlength(DEFAULT_MAX_LENGTH),
-    weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
-    length Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
-    diet Diet,
-    insertDt Instant required,
-    modifiedDt Instant required
 }
 
 enum Diet {
     HERBIVORE, CARNIVORE, OMNIVORE
 }
 
-relationship ManyToOne {
-	Dinosaur{era(name)} to Era,
-	Dinosaur{clade(description)} to Clade
+@paginate(infinite-scroll)
+entity Dinosaur {
+    name String required maxlength(DEFAULT_MAX_LENGTH),
+    weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
+    length Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
+    diet Diet,
+    insertedDt Instant required,
+    modifiedDt Instant required
 }
 
-// Set pagination options.
-paginate Dinosaur with infinite-scroll
-paginate Era, Clade with pagination
+relationship OneToOne {
+	Dinosaur{synonymFor(name)} to Dinosaur
+}
 
-// Use a service layer with an interface for all entities.
-service all with serviceImpl
-
-// [BETA] Use DTO's with the service layer with MapStruct.
-dto * with mapstruct
+relationship OneToMany {
+	Epoch to Age{epoch required},
+    Epoch to Dinosaur{epochItLived required},
+    Age to Dinosaur{ageItLived(name)},
+    Clade to Dinosaur{clade(description)}
+}
