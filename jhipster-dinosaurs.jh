@@ -43,20 +43,27 @@ enum EpochRange {
 entity Epoch {
 	period Period required,
     epoch EpochRange required,
-    fromMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
-    toMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+    fromMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX),
+    toMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
 }
 
 @paginate(pagination)
 entity Age {
     name String required maxlength(DEFAULT_MAX_LENGTH),
-    fromMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
-    toMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+    fromMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX),
+    toMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+}
+
+enum Type {
+	ANKYLOSAURIA, CERATOPSIA, ORNITHOPODA, PACHYCEPHALOSAURIA, SAUROPODOMORPHA, SAUROPODA, STEGOSAURIA, THEROPODA
 }
 
 @paginate(pagination)
 entity Clade {
-	description String required maxlength(DEFAULT_MAX_LENGTH)
+	type Type,
+    pronunciation String maxlength(DEFAULT_MAX_LENGTH),
+    meaning String maxlength(DEFAULT_MAX_LENGTH),
+	description String maxlength(DEFAULT_MAX_LENGTH)
 }
 
 enum Diet {
@@ -66,10 +73,13 @@ enum Diet {
 @paginate(infinite-scroll)
 entity Dinosaur {
     name String required maxlength(DEFAULT_MAX_LENGTH),
+    pronunciation String maxlength(DEFAULT_MAX_LENGTH),
+    meaning String maxlength(DEFAULT_MAX_LENGTH),
     weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
     length Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
+    height Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
     diet Diet,
-    insertedDt Instant required,
+    enteredDt Instant required,
     modifiedDt Instant required
 }
 
@@ -81,5 +91,7 @@ relationship OneToMany {
 	Epoch to Age{epoch required},
     Epoch to Dinosaur{epochItLived required},
     Age to Dinosaur{ageItLived(name)},
-    Clade to Dinosaur{clade(description)}
+    Clade to Dinosaur{clade(type)}
+	User to Dinosaur{enteredBy}
+	User to Dinosaur{modifiedBy}
 }
