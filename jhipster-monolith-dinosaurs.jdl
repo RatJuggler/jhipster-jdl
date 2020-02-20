@@ -1,11 +1,3 @@
-// See https://www.jhipster.tech/jdl/ for JDL specification.
-// See https://www.jhipster.tech/using-dtos/ for notes on DTO's.
-
-DEFAULT_MIN_LENGTH = 1
-DEFAULT_MAX_LENGTH = 64
-DEFAULT_MIN = 0
-DEFAULT_MAX = 999
-
 application {
   config {
     applicationType monolith
@@ -21,7 +13,6 @@ application {
     skipClient false
     clientFramework angularX
     clientPackageManager npm
-    clientTheme none
     useSass true
     skipServer false
     enableSwaggerCodegen false
@@ -40,13 +31,17 @@ application {
   entities *
 }
 
+DEFAULT_MIN_LENGTH = 1
+DEFAULT_MAX_LENGTH = 64
+DEFAULT_MIN = 0
+DEFAULT_MAX = 999
 
 @dto(mapstruct)
 @service(serviceImpl)
 @paginate(pagination)
 entity Era {
-    name String required maxlength(DEFAULT_MAX_LENGTH),
-    fromMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
+    name String required maxlength(DEFAULT_MAX_LENGTH)
+    fromMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
     toMa Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
 }
 
@@ -61,11 +56,11 @@ entity Clade {
 @service(serviceImpl)
 @paginate(infinite-scroll)
     entity Dinosaur {
-    name String required maxlength(DEFAULT_MAX_LENGTH),
-    weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
-    length Integer min(DEFAULT_MIN) max(DEFAULT_MAX),
-    diet Diet,
-    insertDt Instant required,
+    name String required maxlength(DEFAULT_MAX_LENGTH)
+    weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+    length Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+    diet Diet
+    insertDt Instant required
     modifiedDt Instant required
 }
 
