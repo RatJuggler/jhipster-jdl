@@ -1,0 +1,98 @@
+application {
+  config {
+    applicationType monolith
+    baseName dinosaurs
+    packageName com.rj.dinosaurs
+    buildTool maven
+    authenticationType jwt
+    databaseType sql
+    prodDatabaseType mysql
+    devDatabaseType h2Disk
+    cacheProvider ehcache
+    enableHibernateCache true
+    skipClient false
+    clientFramework angularX
+    clientPackageManager npm
+    useSass true
+    skipServer false
+    enableSwaggerCodegen false
+    skipUserManagement false
+    messageBroker false
+    searchEngine false
+    serviceDiscoveryType false
+    websocket false
+    nativeLanguage en
+    enableTranslation false
+    languages [en]
+    jhiPrefix jhi
+    dtoSuffix DTO
+    testFrameworks [protractor, cucumber, gatling]
+  }
+  entities *
+}
+
+DEFAULT_MIN_LENGTH = 1
+DEFAULT_MAX_LENGTH = 64
+DEFAULT_MIN = 0
+DEFAULT_MAX = 999
+
+enum Period {
+	TRIASSIC, JURASSIC, CRETACEOUS
+}
+
+enum EpochRange {
+	EARLY_LOWER, MIDDLE, LATE_UPPER
+}
+
+@paginate(pagination)
+entity Epoch {
+	period Period required
+    epoch EpochRange required
+    fromMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+    toMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+}
+
+@paginate(pagination)
+entity Age {
+    name String required maxlength(DEFAULT_MAX_LENGTH)
+    fromMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+    toMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+}
+
+enum Type {
+	ANKYLOSAURIA, CERATOPSIA, ORNITHOPODA, PACHYCEPHALOSAURIA, SAUROPODOMORPHA, SAUROPODA, STEGOSAURIA, THEROPODA
+}
+
+@paginate(pagination)
+entity Clade {
+	type Type
+    pronunciation String maxlength(DEFAULT_MAX_LENGTH)
+    meaning String maxlength(DEFAULT_MAX_LENGTH)
+	description String maxlength(DEFAULT_MAX_LENGTH)
+}
+
+enum Diet {
+    HERBIVORE, CARNIVORE, OMNIVORE
+}
+
+@paginate(infinite-scroll)
+entity Dinosaur {
+    name String required maxlength(DEFAULT_MAX_LENGTH)
+    pronunciation String maxlength(DEFAULT_MAX_LENGTH)
+    meaning String maxlength(DEFAULT_MAX_LENGTH)
+    weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+    length Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+    height Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+    diet Diet
+    enteredDt Instant required
+    modifiedDt Instant required
+}
+
+relationship OneToMany {
+	Epoch to Age{epoch required}
+    Epoch to Dinosaur{epochItLived required}
+    Age to Dinosaur{ageItLived(name) required}
+    Clade to Dinosaur{clade(type) required}
+	User to Dinosaur{enteredBy required}
+	User to Dinosaur{modifiedBy}
+}
