@@ -1,6 +1,3 @@
-// See http://www.jhipster.tech/jdl/ for JDL specification.
-// See http://www.jhipster.tech/using-dtos/ for notes on DTO's.
-
 DEFAULT_MIN_LENGTH = 1
 DEFAULT_MAX_LENGTH = 32
 DEFAULT_MIN_BYTES = 20
@@ -9,7 +6,7 @@ DEFAULT_MIN = 0
 DEFAULT_MAX = 999
 
 entity Vets {
-  firstname String required maxlength(DEFAULT_MAX_LENGTH),
+  firstname String required maxlength(DEFAULT_MAX_LENGTH)
   lastname String required maxlength(DEFAULT_MAX_LENGTH)
 }
 
@@ -22,20 +19,20 @@ entity Types {
 }
 
 entity Owners {
-  firstname String required maxlength(DEFAULT_MAX_LENGTH),
-  lastname String required maxlength(DEFAULT_MAX_LENGTH),
-  address String required maxlength(255),
-  city String maxlength(DEFAULT_MAX_LENGTH),
+  firstname String required maxlength(DEFAULT_MAX_LENGTH)
+  lastname String required maxlength(DEFAULT_MAX_LENGTH)
+  address String required maxlength(255)
+  city String maxlength(DEFAULT_MAX_LENGTH)
   telephone String required maxlength(20)
 }
 
 entity Pets {
-  name String required maxlength(DEFAULT_MAX_LENGTH),
+  name String required maxlength(DEFAULT_MAX_LENGTH)
   birthdate Date required
 }
 
 entity Visits {
-  visitdate Instant required,
+  visitdate Instant required
   description String required maxlength(255)
 }
 
@@ -59,5 +56,5 @@ paginate Vets, Types, Visits with pagination
 // Use a service layer with an interface for all entities.
 service all with serviceImpl
 
-// [BETA] Use DTO's with the service layer with MapStruct.
+// Use DTO's with the service layer with MapStruct.
 dto * with mapstruct
