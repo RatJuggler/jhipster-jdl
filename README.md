@@ -1,4 +1,4 @@
-# JHipster-JDL
+# jhipster-JDL
 
 Some examples of JDL schema for use with JHipster.
 
@@ -19,5 +19,5 @@ The JDL specification can be found [here](http://www.jhipster.tech/jdl/).
 
 - An implementation of the Petclinic entities used in numerous other project examples.
 
-- The entities used in my own [Dinosaurs JHipster](https://github.com/RatJuggler/jhipster-dinosaurs) example. This now 
-includes the application generation options used.
+- Used to create my own [JHipster Monolith Dinosaurs](https://github.com/RatJuggler/jhipster-monolith-dinosaurs) example. It now 
+includes the application options used to make any (re)generation easier.
