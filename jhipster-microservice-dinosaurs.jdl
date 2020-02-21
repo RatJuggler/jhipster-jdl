@@ -1,8 +1,8 @@
 application {
   config {
-    applicationType monolith
     baseName dinosaurs
-    packageName com.rj.dinosaurs
+    applicationType gateway
+    packageName com.rj.dinosaurs.frontend
     buildTool maven
     authenticationType jwt
     databaseType sql
@@ -31,10 +31,42 @@ application {
   entities *
 }
 
+application {
+    config {
+        baseName catalogue
+        applicationType microservice
+        packageName com.rj.dinosaurs.catalogue
+        buildTool maven
+        skipUserManagement true
+    }
+}
+
+application {
+    config {
+        baseName game
+        applicationType microservice
+        packageName com.rj.dinosaurs.game
+        buildTool maven
+        skipUserManagement true
+    }
+}
+
+application {
+    config {
+        baseName sighting
+        applicationType microservice
+        packageName com.rj.dinosaurs.sighting
+        buildTool maven
+        skipUserManagement true
+    }
+}
+
 DEFAULT_MIN_LENGTH = 1
 DEFAULT_MAX_LENGTH = 64
 DEFAULT_MIN = 0
 DEFAULT_MAX = 999
+
+/* Entities for Dinosaurs Gateway */
 
 enum Period {
 	TRIASSIC, JURASSIC, CRETACEOUS
@@ -44,6 +76,8 @@ enum EpochRange {
 	EARLY_LOWER, MIDDLE, LATE_UPPER
 }
 
+@dto(mapstruct)
+@service(serviceClass)
 @paginate(pagination)
 entity Epoch {
 	period Period required
@@ -52,20 +86,11 @@ entity Epoch {
     toMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
 }
 
-@paginate(pagination)
-entity Age {
-    name String required maxlength(DEFAULT_MAX_LENGTH)
-    fromMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
-    toMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
-}
-
-enum Type {
-	ANKYLOSAURIA, CERATOPSIA, ORNITHOPODA, PACHYCEPHALOSAURIA, SAUROPODOMORPHA, SAUROPODA, STEGOSAURIA, THEROPODA
-}
-
+@dto(mapstruct)
+@service(serviceClass)
 @paginate(pagination)
 entity Clade {
-	type Type
+	name String unique maxlength(DEFAULT_MAX_LENGTH)
     pronunciation String maxlength(DEFAULT_MAX_LENGTH)
     meaning String maxlength(DEFAULT_MAX_LENGTH)
 	description String maxlength(DEFAULT_MAX_LENGTH)
@@ -75,24 +100,62 @@ enum Diet {
     HERBIVORE, CARNIVORE, OMNIVORE
 }
 
-@paginate(infinite-scroll)
+@dto(mapstruct)
+@search(elasticsearch)
+@service(serviceClass)
+@paginate(pagination)
 entity Dinosaur {
-    name String required maxlength(DEFAULT_MAX_LENGTH)
+    name String unique required maxlength(DEFAULT_MAX_LENGTH)
     pronunciation String maxlength(DEFAULT_MAX_LENGTH)
     meaning String maxlength(DEFAULT_MAX_LENGTH)
     weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
     length Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
     height Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
     diet Diet
-    enteredDt Instant required
-    modifiedDt Instant required
+    createdDt Instant required
+    modifiedDt Instant
 }
 
 relationship OneToMany {
-	Epoch to Age{epoch required}
     Epoch to Dinosaur{epochItLived required}
-    Age to Dinosaur{ageItLived(name) required}
-    Clade to Dinosaur{clade(type) required}
-	User to Dinosaur{enteredBy required}
+    Clade to Dinosaur{clade(name) required}
+	User to Dinosaur{createdBy required}
 	User to Dinosaur{modifiedBy}
+}
+
+/* Entities for Sightings microservice */
+
+enum Compass {
+    NORTH, NORTH-EAST, EAST, SOUTH-EAST, SOUTH, SOUTH-WEST, WEST, NORTH-WEST
+}
+
+@search(elasticsearch)
+@paginate(infinite-scroll)
+entity Sighting {
+    dinosaur Long required min(DEFAULT_MIN)
+    byUser Long required min(DEFAULT_MIN)
+    whenDt Instant required
+    lat Float required
+    lng Float required
+    number Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+    heading Compass
+    notes String maxlength(DEFAULT_MAX_LENGTH)
+}
+
+/* Entities for Game microservice */
+
+entity Player {
+    email String unique required minlength(5) maxlength(DEFAULT_MAX_LENGTH) pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+    name String unique required minlength(8) maxlength(DEFAULT_MAX_LENGTH)
+    avatar ImageBlob
+    createdDt Instant required
+}
+
+entity HighScores {
+    score Integer required
+    achievedDt Instant required
+}
+
+relationship OneToOne {
+    Player to HighScores{player required}
 }
