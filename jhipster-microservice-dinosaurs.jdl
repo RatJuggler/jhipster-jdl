@@ -32,33 +32,36 @@ application {
 }
 
 application {
-    config {
-        baseName catalogue
-        applicationType microservice
-        packageName com.rj.dinosaurs.catalogue
-        buildTool maven
-        skipUserManagement true
-    }
+  config {
+    baseName catalogue
+    applicationType microservice
+    packageName com.rj.dinosaurs.catalogue
+    buildTool maven
+    skipUserManagement true
+  }
+  entities Clade, Epoch, Dinosaur
 }
 
 application {
-    config {
-        baseName game
-        applicationType microservice
-        packageName com.rj.dinosaurs.game
-        buildTool maven
-        skipUserManagement true
-    }
+  config {
+    baseName game
+    applicationType microservice
+    packageName com.rj.dinosaurs.game
+    buildTool maven
+    skipUserManagement true
+  }
+  entities Player, Highscore
 }
 
 application {
-    config {
-        baseName sighting
-        applicationType microservice
-        packageName com.rj.dinosaurs.sighting
-        buildTool maven
-        skipUserManagement true
-    }
+  config {
+    baseName sighting
+    applicationType microservice
+    packageName com.rj.dinosaurs.sighting
+    buildTool maven
+    skipUserManagement true
+  }
+  entities Sightings
 }
 
 DEFAULT_MIN_LENGTH = 1
@@ -81,9 +84,9 @@ enum EpochRange {
 @paginate(pagination)
 entity Epoch {
 	period Period required
-    epoch EpochRange required
-    fromMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
-    toMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+  epoch EpochRange required
+  fromMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+  toMa Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
 }
 
 @dto(mapstruct)
@@ -91,13 +94,13 @@ entity Epoch {
 @paginate(pagination)
 entity Clade {
 	name String unique maxlength(DEFAULT_MAX_LENGTH)
-    pronunciation String maxlength(DEFAULT_MAX_LENGTH)
-    meaning String maxlength(DEFAULT_MAX_LENGTH)
+  pronunciation String maxlength(DEFAULT_MAX_LENGTH)
+  meaning String maxlength(DEFAULT_MAX_LENGTH)
 	description String maxlength(DEFAULT_MAX_LENGTH)
 }
 
 enum Diet {
-    HERBIVORE, CARNIVORE, OMNIVORE
+  HERBIVORE, CARNIVORE, OMNIVORE
 }
 
 @dto(mapstruct)
@@ -105,20 +108,20 @@ enum Diet {
 @service(serviceClass)
 @paginate(pagination)
 entity Dinosaur {
-    name String unique required maxlength(DEFAULT_MAX_LENGTH)
-    pronunciation String maxlength(DEFAULT_MAX_LENGTH)
-    meaning String maxlength(DEFAULT_MAX_LENGTH)
-    weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
-    length Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
-    height Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
-    diet Diet
-    createdDt Instant required
-    modifiedDt Instant
+  name String unique required maxlength(DEFAULT_MAX_LENGTH)
+  pronunciation String maxlength(DEFAULT_MAX_LENGTH)
+  meaning String maxlength(DEFAULT_MAX_LENGTH)
+  weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+  length Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+  height Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+  diet Diet
+  createdDt Instant required
+  modifiedDt Instant
 }
 
 relationship OneToMany {
-    Epoch to Dinosaur{epochItLived required}
-    Clade to Dinosaur{clade(name) required}
+  Epoch to Dinosaur{epochItLived required}
+  Clade to Dinosaur{clade(name) required}
 	User to Dinosaur{createdBy required}
 	User to Dinosaur{modifiedBy}
 }
@@ -126,36 +129,36 @@ relationship OneToMany {
 /* Entities for Sightings microservice */
 
 enum Compass {
-    NORTH, NORTH-EAST, EAST, SOUTH-EAST, SOUTH, SOUTH-WEST, WEST, NORTH-WEST
+  NORTH, NORTH-EAST, EAST, SOUTH-EAST, SOUTH, SOUTH-WEST, WEST, NORTH-WEST
 }
 
 @search(elasticsearch)
 @paginate(infinite-scroll)
 entity Sighting {
-    dinosaur Long required min(DEFAULT_MIN)
-    byUser Long required min(DEFAULT_MIN)
-    whenDt Instant required
-    lat Float required
-    lng Float required
-    number Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
-    heading Compass
-    notes String maxlength(DEFAULT_MAX_LENGTH)
+  dinosaur Long required min(DEFAULT_MIN)
+  byUser Long required min(DEFAULT_MIN)
+  whenDt Instant required
+  lat Float required
+  lng Float required
+  number Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
+  heading Compass
+  notes String maxlength(DEFAULT_MAX_LENGTH)
 }
 
 /* Entities for Game microservice */
 
 entity Player {
-    email String unique required minlength(5) maxlength(DEFAULT_MAX_LENGTH) pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
-    name String unique required minlength(8) maxlength(DEFAULT_MAX_LENGTH)
-    avatar ImageBlob
-    createdDt Instant required
+  email String unique required minlength(5) maxlength(DEFAULT_MAX_LENGTH) pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+  name String unique required minlength(8) maxlength(DEFAULT_MAX_LENGTH)
+  avatar ImageBlob
+  createdDt Instant required
 }
 
-entity HighScores {
-    score Integer required
-    achievedDt Instant required
+entity HighScore {
+  score Integer required
+  achievedDt Instant required
 }
 
 relationship OneToOne {
-    Player to HighScores{player required}
+  Player to HighScore{player required}
 }
