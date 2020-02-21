@@ -55,7 +55,7 @@ entity Clade {
 @dto(mapstruct)
 @service(serviceImpl)
 @paginate(infinite-scroll)
-    entity Dinosaur {
+entity Dinosaur {
     name String required maxlength(DEFAULT_MAX_LENGTH)
     weight Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
     length Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
