@@ -2,8 +2,10 @@ application {
   config {
     baseName dinosaurs
     applicationType gateway
-    packageName com.rj.dinosaurs.frontend
+    packageName com.rj.dinosaurs.core
     buildTool maven
+    serverPort 8080
+    serviceDiscoveryType consul
     authenticationType jwt
     databaseType sql
     prodDatabaseType mysql
@@ -14,12 +16,11 @@ application {
     clientFramework angularX
     clientPackageManager npm
     useSass true
-    skipServer false
+    skipServer false  // Could this be set to true?
     enableSwaggerCodegen false
     skipUserManagement false
-    messageBroker false
+    messageBroker kafka
     searchEngine false
-    serviceDiscoveryType false
     websocket false
     nativeLanguage en
     enableTranslation false
@@ -37,7 +38,27 @@ application {
     applicationType microservice
     packageName com.rj.dinosaurs.catalogue
     buildTool maven
+    serverPort 8081
+    serviceDiscoveryType consul
+    authenticationType jwt
+    databaseType sql
+    prodDatabaseType mysql
+    devDatabaseType h2Disk
+    cacheProvider hazelcast
+    enableHibernateCache true
+    skipClient true
+    skipServer false
+    enableSwaggerCodegen false
     skipUserManagement true
+    messageBroker false
+    searchEngine false
+    websocket false
+    nativeLanguage en
+    enableTranslation false
+    languages [en]
+    jhiPrefix jhi
+    dtoSuffix DTO
+    testFrameworks [cucumber, gatling]
   }
   entities Clade, Epoch, Dinosaur
 }
@@ -48,7 +69,27 @@ application {
     applicationType microservice
     packageName com.rj.dinosaurs.game
     buildTool maven
+    serverPort 8082
+    serviceDiscoveryType consul
+    authenticationType jwt
+    databaseType sql
+    prodDatabaseType mysql
+    devDatabaseType h2Disk
+    cacheProvider hazelcast
+    enableHibernateCache true
+    skipClient true
+    skipServer false
+    enableSwaggerCodegen true
     skipUserManagement true
+    messageBroker false
+    searchEngine false
+    websocket false
+    nativeLanguage en
+    enableTranslation false
+    languages [en]
+    jhiPrefix jhi
+    dtoSuffix DTO
+    testFrameworks [cucumber, gatling]
   }
   entities Player, Highscore
 }
@@ -59,7 +100,27 @@ application {
     applicationType microservice
     packageName com.rj.dinosaurs.sighting
     buildTool maven
+    serverPort 8083
+    serviceDiscoveryType consul
+    authenticationType jwt
+    databaseType mongodb
+    devDatabaseType mongodb
+    prodDatabaseType mongodb
+    cacheProvider no
+    enableHibernateCache false
+    skipClient true
+    skipServer false
+    enableSwaggerCodegen false
     skipUserManagement true
+    messageBroker false
+    searchEngine false
+    websocket false
+    nativeLanguage en
+    enableTranslation false
+    languages [en]
+    jhiPrefix jhi
+    dtoSuffix DTO
+    testFrameworks [cucumber, gatling]
   }
   entities Sightings
 }
