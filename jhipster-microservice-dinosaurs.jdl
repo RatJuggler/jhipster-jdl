@@ -1,8 +1,8 @@
 application {
   config {
-    baseName dinosaurs
+    baseName dinosaursCatalogue
     applicationType gateway
-    packageName com.rj.dinosaurs.core
+    packageName com.rj.dinosaurs.catalogue
     buildTool maven
     serverPort 8080
     serviceDiscoveryType consul
@@ -16,10 +16,78 @@ application {
     clientFramework angularX
     clientPackageManager npm
     useSass true
-    skipServer false  // Could this be set to true?
+    skipServer false
     enableSwaggerCodegen false
     skipUserManagement false
+    messageBroker false
+    searchEngine false
+    websocket false
+    nativeLanguage en
+    enableTranslation true
+    languages [en, es, fr]
+    jhiPrefix jhi
+    dtoSuffix DTO
+    testFrameworks [protractor, cucumber, gatling]
+  }
+  entities Clade, Epoch, Dinosaur
+}
+
+application {
+  config {
+    baseName dinosaursSighting
+    applicationType gateway
+    packageName com.rj.dinosaurs.sighting
+    buildTool maven
+    serverPort 8081
+    serviceDiscoveryType consul
+    authenticationType jwt
+    databaseType sql
+    prodDatabaseType mysql
+    devDatabaseType h2Disk
+    cacheProvider ehcache
+    enableHibernateCache false
+    skipClient false
+    clientFramework angularX
+    clientPackageManager npm
+    useSass true
+    skipServer false
+    enableSwaggerCodegen false
+    skipUserManagement true
     messageBroker kafka
+    searchEngine elasticsearch
+    websocket false
+    nativeLanguage en
+    enableTranslation false
+    languages [en]
+    jhiPrefix jhi
+    dtoSuffix DTO
+    testFrameworks [protractor, cucumber, gatling]
+  }
+  entities Sighting
+}
+
+application {
+  config {
+    baseName dinosaursGame
+    applicationType gateway
+    packageName com.rj.dinosaurs.game
+    buildTool maven
+    serverPort 8082
+    serviceDiscoveryType consul
+    authenticationType jwt
+    databaseType sql
+    prodDatabaseType mysql
+    devDatabaseType h2Disk
+    cacheProvider ehcache
+    enableHibernateCache false
+    skipClient false
+    clientFramework angularX
+    clientPackageManager npm
+    useSass true
+    skipServer false
+    enableSwaggerCodegen false
+    skipUserManagement true
+    messageBroker false
     searchEngine false
     websocket false
     nativeLanguage en
@@ -29,7 +97,7 @@ application {
     dtoSuffix DTO
     testFrameworks [protractor, cucumber, gatling]
   }
-  entities *
+  entities Player, Level, HighScore
 }
 
 application {
@@ -38,7 +106,7 @@ application {
     applicationType microservice
     packageName com.rj.dinosaurs.catalogue
     buildTool maven
-    serverPort 8081
+    serverPort 8090
     serviceDiscoveryType consul
     authenticationType jwt
     databaseType sql
@@ -65,11 +133,42 @@ application {
 
 application {
   config {
+    baseName sighting
+    applicationType microservice
+    packageName com.rj.dinosaurs.sighting
+    buildTool maven
+    serverPort 8091
+    serviceDiscoveryType consul
+    authenticationType jwt
+    databaseType mongodb
+    devDatabaseType mongodb
+    prodDatabaseType mongodb
+    cacheProvider no
+    enableHibernateCache false
+    skipClient true
+    skipServer false
+    enableSwaggerCodegen false
+    skipUserManagement true
+    messageBroker kafka
+    searchEngine false
+    websocket false
+    nativeLanguage en
+    enableTranslation false
+    languages [en]
+    jhiPrefix jhi
+    dtoSuffix DTO
+    testFrameworks [cucumber, gatling]
+  }
+  entities Sighting
+}
+
+application {
+  config {
     baseName game
     applicationType microservice
     packageName com.rj.dinosaurs.game
     buildTool maven
-    serverPort 8082
+    serverPort 8092
     serviceDiscoveryType consul
     authenticationType jwt
     databaseType sql
@@ -91,38 +190,7 @@ application {
     dtoSuffix DTO
     testFrameworks [cucumber, gatling]
   }
-  entities Player, Highscore
-}
-
-application {
-  config {
-    baseName sighting
-    applicationType microservice
-    packageName com.rj.dinosaurs.sighting
-    buildTool maven
-    serverPort 8083
-    serviceDiscoveryType consul
-    authenticationType jwt
-    databaseType mongodb
-    devDatabaseType mongodb
-    prodDatabaseType mongodb
-    cacheProvider no
-    enableHibernateCache false
-    skipClient true
-    skipServer false
-    enableSwaggerCodegen false
-    skipUserManagement true
-    messageBroker false
-    searchEngine false
-    websocket false
-    nativeLanguage en
-    enableTranslation false
-    languages [en]
-    jhiPrefix jhi
-    dtoSuffix DTO
-    testFrameworks [cucumber, gatling]
-  }
-  entities Sightings
+  entities Player, Level, HighScore
 }
 
 DEFAULT_MIN_LENGTH = 1
@@ -189,8 +257,8 @@ relationship OneToMany {
 
 /* Entities for Sightings microservice */
 
-enum Compass {
-  NORTH, NORTH-EAST, EAST, SOUTH-EAST, SOUTH, SOUTH-WEST, WEST, NORTH-WEST
+enum Heading {
+  STATIONARY, NORTH, NORTH-EAST, EAST, SOUTH-EAST, SOUTH, SOUTH-WEST, WEST, NORTH-WEST
 }
 
 @search(elasticsearch)
@@ -202,7 +270,7 @@ entity Sighting {
   lat Float required
   lng Float required
   number Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
-  heading Compass
+  heading Heading
   notes String maxlength(DEFAULT_MAX_LENGTH)
 }
 
@@ -215,6 +283,13 @@ entity Player {
   createdDt Instant required
 }
 
+entity Level {
+  name String required minlength(DEFAULT_MIN_LENGTH) maxlength(DEFAULT_MAX_LENGTH)
+  order Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+  definition TextBlob required
+  createdDt Instant required
+}
+
 entity HighScore {
   score Integer required
   achievedDt Instant required
@@ -222,4 +297,5 @@ entity HighScore {
 
 relationship OneToOne {
   Player to HighScore{player required}
+  Level to HighScore{level required}
 }
