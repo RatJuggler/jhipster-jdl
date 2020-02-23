@@ -258,7 +258,7 @@ relationship OneToMany {
 /* Entities for Sightings microservice */
 
 enum Heading {
-  STATIONARY, NORTH, NORTH-EAST, EAST, SOUTH-EAST, SOUTH, SOUTH-WEST, WEST, NORTH-WEST
+  STATIONARY, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST
 }
 
 @search(elasticsearch)
