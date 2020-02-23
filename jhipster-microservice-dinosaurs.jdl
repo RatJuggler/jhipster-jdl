@@ -299,6 +299,6 @@ entity HighScore {
 }
 
 relationship OneToOne {
-  Player to HighScore{player required}
-  Level to HighScore{level required}
+  HighScore{player required} to Player
+  HighScore{level required} to Level
 }
