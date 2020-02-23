@@ -251,8 +251,11 @@ entity Dinosaur {
 relationship OneToMany {
   Epoch to Dinosaur{epochItLived required}
   Clade to Dinosaur{clade(name) required}
-	User to Dinosaur{createdBy required}
-	User to Dinosaur{modifiedBy}
+}
+
+relationship ManyToOne {
+	Dinosaur{createdBy required} to User
+	Dinosaur{modifiedBy} to User
 }
 
 /* Entities for Sightings microservice */
