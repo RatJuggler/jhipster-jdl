@@ -54,7 +54,7 @@ application {
     enableSwaggerCodegen false
     skipUserManagement true
     messageBroker kafka
-    searchEngine elasticsearch
+    searchEngine false
     websocket false
     nativeLanguage en
     enableTranslation false
@@ -119,7 +119,7 @@ application {
     enableSwaggerCodegen false
     skipUserManagement true
     messageBroker false
-    searchEngine false
+    searchEngine elasticsearch
     websocket false
     nativeLanguage en
     enableTranslation false
@@ -150,7 +150,7 @@ application {
     enableSwaggerCodegen false
     skipUserManagement true
     messageBroker kafka
-    searchEngine false
+    searchEngine elasticsearch
     websocket false
     nativeLanguage en
     enableTranslation false
@@ -244,18 +244,15 @@ entity Dinosaur {
   length Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
   height Integer min(DEFAULT_MIN) max(DEFAULT_MAX)
   diet Diet
+  createdBy Long required min(DEFAULT_MIN)  // User part of gateway application.
   createdDt Instant required
+  modifiedBy Long min(DEFAULT_MIN)  // User part of gateway application.
   modifiedDt Instant
 }
 
 relationship OneToMany {
   Epoch to Dinosaur{epochItLived required}
   Clade to Dinosaur{clade(name) required}
-}
-
-relationship ManyToOne {
-	Dinosaur{createdBy required} to User
-	Dinosaur{modifiedBy} to User
 }
 
 /* Entities for Sightings microservice */
