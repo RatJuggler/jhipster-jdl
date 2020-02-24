@@ -20,7 +20,7 @@ application {
     enableSwaggerCodegen false
     skipUserManagement false
     messageBroker false
-    searchEngine false
+    searchEngine elasticsearch
     websocket false
     nativeLanguage en
     enableTranslation true
@@ -54,7 +54,7 @@ application {
     enableSwaggerCodegen false
     skipUserManagement true
     messageBroker kafka
-    searchEngine false
+    searchEngine elasticsearch
     websocket false
     nativeLanguage en
     enableTranslation false
