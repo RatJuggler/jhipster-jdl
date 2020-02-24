@@ -1,6 +1,6 @@
 application {
   config {
-    baseName dinosaurs
+    baseName gateway
     applicationType gateway
     packageName com.rj.dinosaurs.gateway
     buildTool maven
@@ -81,7 +81,7 @@ application {
     skipServer false
     enableSwaggerCodegen false
     skipUserManagement true
-    messageBroker kafka
+    messageBroker false
     searchEngine elasticsearch
     websocket false
     nativeLanguage en
