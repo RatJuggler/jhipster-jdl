@@ -1,8 +1,8 @@
 application {
   config {
-    baseName dinosaursCatalogue
+    baseName dinosaurs
     applicationType gateway
-    packageName com.rj.dinosaurs.catalogue
+    packageName com.rj.dinosaurs.gateway
     buildTool maven
     serverPort 8080
     serviceDiscoveryType consul
@@ -17,9 +17,9 @@ application {
     clientPackageManager npm
     useSass true
     skipServer false
-    enableSwaggerCodegen false
+    enableSwaggerCodegen true
     skipUserManagement false
-    messageBroker false
+    messageBroker kafka
     searchEngine elasticsearch
     websocket false
     nativeLanguage en
@@ -29,75 +29,7 @@ application {
     dtoSuffix DTO
     testFrameworks [protractor, cucumber, gatling]
   }
-  entities Clade, Epoch, Dinosaur
-}
-
-application {
-  config {
-    baseName dinosaursSighting
-    applicationType gateway
-    packageName com.rj.dinosaurs.sighting
-    buildTool maven
-    serverPort 8081
-    serviceDiscoveryType consul
-    authenticationType jwt
-    databaseType sql
-    prodDatabaseType mysql
-    devDatabaseType h2Disk
-    cacheProvider ehcache
-    enableHibernateCache false
-    skipClient false
-    clientFramework angularX
-    clientPackageManager npm
-    useSass true
-    skipServer false
-    enableSwaggerCodegen false
-    skipUserManagement true
-    messageBroker kafka
-    searchEngine elasticsearch
-    websocket false
-    nativeLanguage en
-    enableTranslation false
-    languages [en]
-    jhiPrefix jhi
-    dtoSuffix DTO
-    testFrameworks [protractor, cucumber, gatling]
-  }
-  entities Sighting
-}
-
-application {
-  config {
-    baseName dinosaursGame
-    applicationType gateway
-    packageName com.rj.dinosaurs.game
-    buildTool maven
-    serverPort 8082
-    serviceDiscoveryType consul
-    authenticationType jwt
-    databaseType sql
-    prodDatabaseType mysql
-    devDatabaseType h2Disk
-    cacheProvider ehcache
-    enableHibernateCache false
-    skipClient false
-    clientFramework angularX
-    clientPackageManager npm
-    useSass true
-    skipServer false
-    enableSwaggerCodegen false
-    skipUserManagement true
-    messageBroker false
-    searchEngine false
-    websocket false
-    nativeLanguage en
-    enableTranslation false
-    languages [en]
-    jhiPrefix jhi
-    dtoSuffix DTO
-    testFrameworks [protractor, cucumber, gatling]
-  }
-  entities Player, Level, HighScore
+  entities *
 }
 
 application {
