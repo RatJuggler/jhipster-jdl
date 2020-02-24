@@ -19,7 +19,6 @@ Also see notes on the use of DTOs [here](https://www.jhipster.tech/using-dtos/).
 
 - jhipster-pet-clinic - An implementation of the Petclinic entities used in numerous other project examples.
 
-- jhipster-monolith-dinosaurs - Used to create my own [JHipster Monolith Dinosaurs](https://github.com/RatJuggler/jhipster-monolith-dinosaurs) example. It also 
-includes the application options used to make any (re)generation easier.
+- jhipster-monolith-dinosaurs - Used to create my own [JHipster Monolith Dinosaurs](https://github.com/RatJuggler/jhipster-monolith-dinosaurs) example application. It also includes the application options used to make any (re)generation easier. See that project for more details.
 
-- jhipster-microservices-dinosaurs - WIP to create a microservices version of the Dinosaurs application.
+- jhipster-microservices-dinosaurs - Used to create my own [JHipster Microservices Dinosaurs](https://github.com/RatJuggler/jhipster-microservices-dinosaurs) example application.  It also includes the application options used to make any (re)generation easier See that project for more details.
