@@ -1,13 +1,22 @@
+DEFAULT_MIN_LENGTH = 1
+DEFAULT_MAX_LENGTH = 64
+TEXT_MAX_LENGTH = 512
+DEFAULT_MIN = 0
+DEFAULT_MAX = 999
+
 entity Developer {
-  developerId Long
-  firstName String
-  lastName String
+  firstName String required maxlength(DEFAULT_MAX_LENGTH)
+  lastName String required maxlength(DEFAULT_MAX_LENGTH)
   location String
-  status DeveloperStatus
-  email String
+  status DeveloperStatus required
+  email String unique required minlength(5) maxlength(DEFAULT_MAX_LENGTH) pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
   github String
   linkedin String
   twitter String
+  createdBy Long required min(DEFAULT_MIN)  // User.
+  createdDt Instant required
+  modifiedBy Long min(DEFAULT_MIN)  // User.
+  modifiedDt Instant
 }
 
 enum DeveloperStatus {
@@ -15,27 +24,29 @@ enum DeveloperStatus {
 }
 
 entity Skill {
-  skillId Long
-  developerId Long
-  type String
+  type SkillType required
   category String
-  skill String
-  description String
+  skill String maxlength(DEFAULT_MAX_LENGTH)
+  description String maxlength(TEXT_MAX_LENGTH)
+}
+
+enum SkillType {
+  CORE, PROFICIENT, FAMILIAR
+}
+
+entity SkillCategory {
+  category String
 }
 
 entity Career {
-  careerId Long
-  developerId Long
-  sequence Integer
-  period String
+  sequence Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+  period String required maxlength(DEFAULT_MAX_LENGTH)
   image String
-  synopsis String
+  synopsis String maxlength(TEXT_MAX_LENGTH)
 }
 
 entity Interest {
-  interestId Long
-  developerId Long
-  interest String
+  interest String required maxlength(DEFAULT_MAX_LENGTH)
   image String
-  description String
+  description String maxlength(TEXT_MAX_LENGTH)
 }
