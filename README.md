@@ -15,6 +15,8 @@ Also see notes on the use of DTOs [here](https://www.jhipster.tech/using-dtos/).
 
 - jhipster-blog - A blog, as used in Matt Raible's [Getting Started with JHipster 6](https://www.youtube.com/watch?v=uQqlO3IGpTU) video.
 
+- jhipster-developer-portfolio - A *work in progress* example to go with my [Developer Portfolio](https://github.com/RatJuggler/developer-portfolio) site.
+
 - jhipster-example - The default Oracle "Human Resources" example from the JDL-Studio editor.
 
 - jhipster-pet-clinic - An implementation of the Petclinic entities used in numerous other project examples.
