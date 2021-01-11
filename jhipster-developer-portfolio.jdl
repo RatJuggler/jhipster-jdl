@@ -1,0 +1,41 @@
+entity Developer {
+  developerId Long
+  firstName String
+  lastName String
+  location String
+  status DeveloperStatus
+  email String
+  github String
+  linkedin String
+  twitter String
+}
+
+enum DeveloperStatus {
+  AVAILABLE, UNAVAILABLE
+}
+
+entity Skill {
+  skillId Long
+  developerId Long
+  type String
+  category String
+  skill String
+  description String
+}
+
+entity Career {
+  careerId Long
+  developerId Long
+  sequence Integer
+  period String
+  image String
+  synopsis String
+}
+
+entity Interest {
+  interestId Long
+  developerId Long
+  interest String
+  image String
+  description String
+}
