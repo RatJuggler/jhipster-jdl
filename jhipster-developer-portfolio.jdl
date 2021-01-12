@@ -3,6 +3,7 @@ DEFAULT_MAX_LENGTH = 64
 URL_MAX_LENGTH = 2048
 EMAIL_MAX_LENGTH = 256
 TEXT_MAX_LENGTH = 512
+PATH_MAX_LENGTH = 128
 DEFAULT_MIN = 0
 DEFAULT_MAX = 999
 
@@ -12,8 +13,8 @@ entity Profile {
   lastName String required maxlength(DEFAULT_MAX_LENGTH)
   location String maxlength(DEFAULT_MAX_LENGTH)
   status ProfileStatus required
-  avatar String maxlength(URL_MAX_LENGTH)
-  photo String maxlength(URL_MAX_LENGTH)
+  avatarPath String maxlength(PATH_MAX_LENGTH)
+  photoPath String maxlength(PATH_MAX_LENGTH)
   description String maxlength(TEXT_MAX_LENGTH)
   email String unique required minlength(5) maxlength(EMAIL_MAX_LENGTH) pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
   github String maxlength(URL_MAX_LENGTH)
@@ -49,15 +50,15 @@ entity SkillCategory {
 }
 
 entity Career {
-  sequence Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
-  period String required maxlength(DEFAULT_MAX_LENGTH)
-  imagePath String
+  step Integer required min(DEFAULT_MIN) max(DEFAULT_MAX)
+  description String required maxlength(DEFAULT_MAX_LENGTH)
+  imagePath String maxlength(PATH_MAX_LENGTH)
   synopsis String maxlength(TEXT_MAX_LENGTH)
 }
 
 entity Interest {
-  interest String required maxlength(DEFAULT_MAX_LENGTH)
-  imagePath String
+  title String required maxlength(DEFAULT_MAX_LENGTH)
+  imagePath String maxlength(PATH_MAX_LENGTH)
   description String maxlength(TEXT_MAX_LENGTH)
 }
 
