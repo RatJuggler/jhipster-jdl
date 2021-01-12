@@ -1,28 +1,37 @@
-DEFAULT_MIN_LENGTH = 1
+DEFAULT_MIN_LENGTH = 4
 DEFAULT_MAX_LENGTH = 64
-URL_MAX_LENGTH = 128
+URL_MAX_LENGTH = 2048
+EMAIL_MAX_LENGTH = 256
 TEXT_MAX_LENGTH = 512
 DEFAULT_MIN = 0
 DEFAULT_MAX = 999
 
 
-entity Developer {
+entity Profile {
   firstName String required maxlength(DEFAULT_MAX_LENGTH)
   lastName String required maxlength(DEFAULT_MAX_LENGTH)
   location String maxlength(DEFAULT_MAX_LENGTH)
-  status DeveloperStatus required
-  email String unique required minlength(5) maxlength(DEFAULT_MAX_LENGTH) pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+  status ProfileStatus required
+  avatar String maxlength(URL_MAX_LENGTH)
+  photo String maxlength(URL_MAX_LENGTH)
+  description String maxlength(TEXT_MAX_LENGTH)
+  email String unique required minlength(5) maxlength(EMAIL_MAX_LENGTH) pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
   github String maxlength(URL_MAX_LENGTH)
   linkedin String maxlength(URL_MAX_LENGTH)
   twitter String maxlength(URL_MAX_LENGTH)
-  createdBy Long required min(DEFAULT_MIN)  // User.
+  createdBy Long required min(DEFAULT_MIN)  // Id Of User.
   createdDt Instant required
-  modifiedBy Long min(DEFAULT_MIN)  // User.
+  modifiedBy Long min(DEFAULT_MIN)  // Id Of User.
   modifiedDt Instant
 }
 
-enum DeveloperStatus {
+enum ProfileStatus {
   AVAILABLE, UNAVAILABLE
+}
+
+entity Project {
+  name String required maxlength(DEFAULT_MAX_LENGTH)
+  url String required maxlength(URL_MAX_LENGTH)
 }
 
 entity Skill {
@@ -53,8 +62,9 @@ entity Interest {
 }
 
 relationship OneToMany {
-  Developer to Skill
-  Developer to Career
-  Developer to Interest
+  Profile to Project
+  Profile to Skill
+  Profile to Career
+  Profile to Interest
   SkillCategory to Skill
 }
