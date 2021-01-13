@@ -9,8 +9,7 @@ DEFAULT_MAX = 999
 
 
 entity Profile {
-  firstName String required maxlength(DEFAULT_MAX_LENGTH)
-  lastName String required maxlength(DEFAULT_MAX_LENGTH)
+  name String required maxlength(DEFAULT_MAX_LENGTH)
   location String maxlength(DEFAULT_MAX_LENGTH)
   status ProfileStatus required
   avatarPath String maxlength(PATH_MAX_LENGTH)
@@ -20,9 +19,9 @@ entity Profile {
   github String maxlength(URL_MAX_LENGTH)
   linkedin String maxlength(URL_MAX_LENGTH)
   twitter String maxlength(URL_MAX_LENGTH)
-  createdBy Long required min(DEFAULT_MIN)  // Id Of User.
+  createdBy Long required min(DEFAULT_MIN)  // Id of User.
   createdDt Instant required
-  modifiedBy Long min(DEFAULT_MIN)  // Id Of User.
+  modifiedBy Long min(DEFAULT_MIN)  // Id of User.
   modifiedDt Instant
 }
 
