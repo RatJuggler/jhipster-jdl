@@ -36,12 +36,12 @@ entity Project {
 }
 
 entity Skill {
-  type SkillType required
+  level SkillLevel required
   skill String maxlength(DEFAULT_MAX_LENGTH)
   description String maxlength(TEXT_MAX_LENGTH)
 }
 
-enum SkillType {
+enum SkillLevel {
   CORE, PROFICIENT, FAMILIAR
 }
 
