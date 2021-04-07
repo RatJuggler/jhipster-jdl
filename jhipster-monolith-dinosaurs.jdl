@@ -14,7 +14,6 @@ application {
     skipClient false
     clientFramework angularX
     clientPackageManager npm
-    useSass true
     skipServer false
     enableSwaggerCodegen false
     skipUserManagement false
